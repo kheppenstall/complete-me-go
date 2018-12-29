@@ -1,4 +1,4 @@
-package autocomplete
+package main
 
 import (
 	"testing"

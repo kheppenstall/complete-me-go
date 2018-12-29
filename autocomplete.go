@@ -1,9 +1,32 @@
-package autocomplete
+package main
 
-import "sort"
+import (
+	"log"
+	"os"
+	"sort"
+	"strings"
+)
 
 type autocomplete struct {
 	root node
+}
+
+func newAutocompleteFromFileName(fileName string) autocomplete {
+	file, err := os.Open(fileName)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	data := make([]byte, 10000000)
+	_, err = file.Read(data)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	s := string(data)
+	xs := strings.Split(s, "\n")
+	return newAutocomplete(xs)
 }
 
 func newAutocomplete(words []string) autocomplete {
